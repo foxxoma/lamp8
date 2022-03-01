@@ -1,0 +1,30 @@
+
+version: "3"
+
+services:
+  webserver:
+    build: ./bin/webserver
+    container_name: 'webserver'
+    restart: 'always'
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes: 
+        - ./www:/var/www
+        - ./config/vhosts:/etc/apache2/sites-enabled
+    links:
+      - mysql
+  mysql:
+    image: mysql:5.7.37
+    container_name: 'mysql'
+    command: mysqld --sql_mode=""
+    restart: 'always'
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+      - ./logs/mysql:/var/log/mysql
+    environment:
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 29ghCWrFxEDtEzZ
+      MYSQL_ROOT_PASSWORD: J29ghCWrFxEDtEzZ
